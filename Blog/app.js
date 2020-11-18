@@ -47,7 +47,7 @@ app.set('view engine', 'handlebars');
 //Mongoose
 mongoose.Promise = global.Promise;
 mongoose.connect("mongodb://localhost/blogapp").then(() => {
-    console.log("Conectado com Sucesso!!")
+    console.log("Conectado Sucesso!!")
 }).catch((err) => {
     console.log("Falha ao Conectar!!" + err)
 })
