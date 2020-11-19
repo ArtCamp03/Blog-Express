@@ -4,3 +4,5 @@ ultiliza :
 - JS
 - Node Js
 - Express
+- Handlebars
+- Mongo BD

@@ -1,7 +1,7 @@
 //carregando modulos
 const express = require('express')
 const handlebars = require('express-handlebars')
-const bodyParser = require("body-parser")
+const bodyParser = require("body-parser")       //Biblioteca usada para manipular formularios
 const app = express()
 const admin = require("./rotas/admin")
 const path = require("path")
