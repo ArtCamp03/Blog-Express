@@ -5,4 +5,4 @@ ultiliza :
 - Node Js
 - Express
 - Handlebars
-- Mongo Bd
+- Mongo 
