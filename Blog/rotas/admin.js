@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const mongoose = require("mongoose")
+const mongoose = require("mongoose")   
 const { EINPROGRESS } = require('constants')
 
 //carregar o models
@@ -8,7 +8,6 @@ require("../models/Categoria")
 const Categoria = mongoose.model("categorias")
 require("../models/Postagem")
 const Postagem = mongoose.model("postagens")
-
 
 router.get('/', (req, res) => {
     res.render("admin/index")

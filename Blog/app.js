@@ -44,13 +44,15 @@ app.use(bodyParser.json())
 //Handlebars
 app.engine('handlebars', handlebars({ defaultLayout: 'main' }))
 app.set('view engine', 'handlebars');
+
 //Mongoose
-mongoose.Promise = global.Promise;
+mongoose.Promise = global.Promise;      //evita erros durante o processo
 mongoose.connect("mongodb://localhost/blogapp").then(() => {
     console.log("Conectado Sucesso!!")
 }).catch((err) => {
     console.log("Falha ao Conectar!!" + err)
 })
+
 //public
 app.use(express.static('public'));
 

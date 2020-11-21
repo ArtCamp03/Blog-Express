@@ -11,5 +11,6 @@ ultiliza :
 
 sequelize -> npm install --save sequelize
 Express -> npm install --save express (modulo mysql) => npm install --save mysql2
-bodyParser -> npm install --save body-parser
 Handlebars -> npm install --save express-handlebars
+bodyParser -> npm install --save body-parser
+mongoose -> npm install --save mongoose (manipulaçao do mongo)
