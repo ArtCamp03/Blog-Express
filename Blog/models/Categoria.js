@@ -1,10 +1,5 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:8081/aprendendo', {
-    useNewUrlParser: true
-})
 
 const Categoria = new Schema({
 
