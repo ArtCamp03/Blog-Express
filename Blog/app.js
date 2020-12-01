@@ -12,11 +12,17 @@ const session = require("express-session")
 const flash = require("connect-flash")
 const moment = require('moment');
 const router = require('./rotas/admin');
+const usuarios = require('./rotas/usuario');
+const passport = require('passport');
+require("./config/auth")(passport);
+
 //Configuraçoes
 
 //carregar o models
 require("./models/Postagem")
 const Postagem = mongoose.model("postagens")
+require("./models/Categoria")
+const Categoria = mongoose.model("categorias")
 
 //Data
 app.use('handlebars', handlebars({
@@ -35,6 +41,10 @@ app.use(session({
     saveUninitialized: true
 }))
 
+//inicializando passport
+app.use(passport.initialize())
+app.use(passport.session())
+
 //configurando flash
 app.use(flash());       //sempre abaixo da sessao
 
@@ -43,6 +53,8 @@ app.use((req, res, next) => {
     //declaraçao de variaveis globais
     res.locals.success_msg = req.flash("success_msg");
     res.locals.error_msg = req.flash("error_msg");
+    res.locals.error = req.flash("error")
+    res.locals.user = req.user || null;
     next();
 })
 
@@ -100,14 +112,39 @@ app.get('/postagem/:slug',(req, res) => {
     })
 })
 
-app.get('/posts', (req, res) => {
-    res.send("Lista de Posts")
+app.get('/categorias', (req, res) => {
+    Categoria.find().lean().then((categorias) =>{
+        res.render('categorias/index', {categorias: categorias})
+    }).catch((err) => {
+        req.flash('error_msg', "Erro ao lsitar categorias")
+        res.redirect('/')
+    })
+})
+
+app.get('/categorias/:slug', (req, res) => {
+    Categoria.findOne({slug: req.params.slug}).lean().then((categoria) => {
+        if(categoria){
+            Postagem.find({categoria: categoria._id}).lean().then((postagens) => {
+                res.render('categorias/postagens', {postagens: postagens, categoria: categoria})
+            }).catch((err) => {
+                req.flash('error_msg', "Erro ao listar post")
+                res.redirect('/')
+            })
+        }else{
+            req.flash('error_msg', "Categoria nao encontrada")
+            res.redirect('/')
+        }
+    }).catch((err) => {
+        req.flash('error_msg', "Erro ao carregar")
+        res.redirect('/')
+    })
 })
 
 app.use("/admin", urlencodedParse, admin);
+app.use('/usuarios', usuarios)
 
 //Outros
-const PORT = 8081
+const PORT = process.env.PORT || 8081
 app.listen(PORT, () => {
     console.log("Servidor Rodando!!")
 })
